@@ -243,6 +243,11 @@ def print_info(path: StrOrBytesPath, verbose=False):
             )
         print(str.join("\n", msgs))
     elif isinstance(reader, NGFFNode):
+        print("Test NGFFNode")
+        print(reader)
+
+        print('###############OLD#################')
+
         msgs.extend(
             [
                 sum_msg,
