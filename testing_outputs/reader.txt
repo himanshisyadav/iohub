@@ -1,0 +1,126 @@
+Reading file:	 /project/rcc/hyadav/biahub_data/20200812-CardiomyocyteDifferentiation14-Cycle1_mip.zarr
+
+#############  NEW  ###############
+Zarr hierarchy:
+/
+ └── B
+     └── 03
+         └── 0
+             ├── 0 (1, 1, 2160, 5120) uint16
+             ├── 1 (1, 1, 1080, 2560) uint16
+             ├── 2 (1, 1, 540, 1280) uint16
+             ├── 3 (1, 1, 270, 640) uint16
+             ├── 4 (1, 1, 135, 320) uint16
+             ├── labels
+             │   └── label_DAPI
+             │       ├── 0 (1, 1080, 2560) uint32
+             │       ├── 1 (1, 540, 1280) uint32
+             │       ├── 2 (1, 270, 640) uint32
+             │       ├── 3 (1, 135, 320) uint32
+             │       └── 4 (1, 67, 160) uint32
+             └── tables
+                 ├── FOV_ROI_table
+                 │   ├── X (2, 8) float32
+                 │   ├── layers
+                 │   ├── obs
+                 │   │   └── FieldIndex (2,) object
+                 │   ├── obsm
+                 │   ├── obsp
+                 │   ├── uns
+                 │   ├── var
+                 │   │   └── _index (8,) object
+                 │   ├── varm
+                 │   └── varp
+                 └── well_ROI_table
+                     ├── X (1, 6) float32
+                     ├── layers
+                     ├── obs
+                     │   └── FieldIndex (1,) object
+                     ├── obsm
+                     ├── obsp
+                     ├── uns
+                     ├── var
+                     │   └── _index (6,) object
+                     ├── varm
+                     └── varp
+
+
+=== Summary ===
+Format:			 omezarr v0.4
+Type:			 Plate
+NGFF Version:		 0.4
+Is Root:		 True
+Is Leaf:		 False
+Axes:			 [c, z (space) (micrometer), y (space) (micrometer), x (space) (micrometer)]
+Channels (Total: 1):	 ['DAPI']
+Row names:		 ['B']
+Column names:		 ['03']
+Wells:			 1
+Child Groups (1):	 ['B']
+Store Type:		 DirectoryStore
+Positions:		 1
+Chunk size:		 (1, 1, 2160, 2560)
+No. bytes decompressed:	 22118400 [21.1 MiB]
+Usage example:
+>>> from iohub import open_ome_zarr
+>>> dataset = open_ome_zarr('/project/rcc/hyadav/biahub_data/20200812-CardiomyocyteDifferentiation14-Cycle1_mip.zarr', mode='r')
+
+#############  OLD  ###############
+Zarr hierarchy:
+/
+ └── B
+     └── 03
+         └── 0
+             ├── 0 (1, 1, 2160, 5120) uint16
+             ├── 1 (1, 1, 1080, 2560) uint16
+             ├── 2 (1, 1, 540, 1280) uint16
+             ├── 3 (1, 1, 270, 640) uint16
+             ├── 4 (1, 1, 135, 320) uint16
+             ├── labels
+             │   └── label_DAPI
+             │       ├── 0 (1, 1080, 2560) uint32
+             │       ├── 1 (1, 540, 1280) uint32
+             │       ├── 2 (1, 270, 640) uint32
+             │       ├── 3 (1, 135, 320) uint32
+             │       └── 4 (1, 67, 160) uint32
+             └── tables
+                 ├── FOV_ROI_table
+                 │   ├── X (2, 8) float32
+                 │   ├── layers
+                 │   ├── obs
+                 │   │   └── FieldIndex (2,) object
+                 │   ├── obsm
+                 │   ├── obsp
+                 │   ├── uns
+                 │   ├── var
+                 │   │   └── _index (8,) object
+                 │   ├── varm
+                 │   └── varp
+                 └── well_ROI_table
+                     ├── X (1, 6) float32
+                     ├── layers
+                     ├── obs
+                     │   └── FieldIndex (1,) object
+                     ├── obsm
+                     ├── obsp
+                     ├── uns
+                     ├── var
+                     │   └── _index (6,) object
+                     ├── varm
+                     └── varp
+
+=== Summary ===
+Format:			 omezarr v0.4
+Axes:			 c (channel); z (space); y (space); x (space);
+Channel names:		 ['DAPI']
+Row names:		 ['B']
+Column names:		 ['03']
+Wells:			 1
+Positions:		 1
+Chunk size:		 (1, 1, 2160, 2560)
+No. bytes decompressed:	 22118400 [21.1 MiB]
+
+This datset can be opened with iohub in Python code:
+
+>>> from iohub import open_ome_zarr
+>>> dataset = open_ome_zarr('/project/rcc/hyadav/biahub_data/20200812-CardiomyocyteDifferentiation14-Cycle1_mip.zarr', mode='r')

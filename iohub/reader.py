@@ -243,11 +243,60 @@ def print_info(path: StrOrBytesPath, verbose=False):
             )
         print(str.join("\n", msgs))
     elif isinstance(reader, NGFFNode):
-        print("Test NGFFNode")
-        print(reader)
+        print("\n#############  NEW  ###############")
+        # Use the __repr__ method for basic information
+        # technical_msg = repr(reader)
 
-        print('###############OLD#################')
+        # Adding specific technical details not in __repr__
+        msgs.extend(
+            [
+                sum_msg,
+                fmt_msg,
+                reader.__repr__(),
+            ]
+        )
 
+        if isinstance(reader, Plate):
+            if verbose:
+                print("Zarr hierarchy:")
+                reader.print_tree()
+                print()
+
+                positions = list(reader.positions())
+                total_bytes_uncompressed = sum(
+                    p["0"].nbytes for _, p in positions
+                )
+                msgs.extend(
+                    [
+                        f"Positions:\t\t {len(positions)}",
+                        f"Chunk size:\t\t {positions[0][1][0].chunks}",
+                        f"No. bytes decompressed:\t "
+                        f"{total_bytes_uncompressed} "
+                        f"[{sizeof_fmt(total_bytes_uncompressed)}]",
+                    ]
+                )
+        else:
+            total_bytes_uncompressed = reader["0"].nbytes
+            msgs.extend(
+                [
+                    f"(Z, Y, X) scale (um):\t {tuple(reader.scale[2:])}",
+                    f"Chunk size:\t\t {reader['0'].chunks}",
+                    f"No. bytes decompressed:\t {total_bytes_uncompressed} "
+                    f"[{sizeof_fmt(total_bytes_uncompressed)}]",
+                ]
+            )
+
+        if msgs:
+            print("\n".join(msgs))
+
+        if verbose:
+            print("Usage example:")
+            print(">>> from iohub import open_ome_zarr")
+            print(f">>> dataset = open_ome_zarr('{path}', mode='r')")
+            print()
+
+        print("#############  OLD  ###############")
+        msgs = []
         msgs.extend(
             [
                 sum_msg,
@@ -259,6 +308,7 @@ def print_info(path: StrOrBytesPath, verbose=False):
                 ch_msg,
             ]
         )
+
         if isinstance(reader, Plate):
             meta = reader.metadata
             msgs.extend(
@@ -278,7 +328,7 @@ def print_info(path: StrOrBytesPath, verbose=False):
                 msgs.append(f"Positions:\t\t {len(positions)}")
                 msgs.append(f"Chunk size:\t\t {positions[0][1][0].chunks}")
                 msgs.append(
-                    f"No. bytes decompressed:\t\t {total_bytes_uncompressed} "
+                    f"No. bytes decompressed:\t {total_bytes_uncompressed} "
                     f"[{sizeof_fmt(total_bytes_uncompressed)}]"
                 )
         else:
@@ -286,7 +336,7 @@ def print_info(path: StrOrBytesPath, verbose=False):
             msgs.append(f"(Z, Y, X) scale (um):\t {tuple(reader.scale[2:])}")
             msgs.append(f"Chunk size:\t\t {reader['0'].chunks}")
             msgs.append(
-                f"No. bytes decompressed:\t\t {total_bytes_uncompressed} "
+                f"No. bytes decompressed:\t {total_bytes_uncompressed} "
                 f"[{sizeof_fmt(total_bytes_uncompressed)}]"
             )
         if verbose:

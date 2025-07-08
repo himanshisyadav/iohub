@@ -135,63 +135,74 @@ class NGFFNode:
     def __repr__(self) -> str:
         """Return a detailed string representation of the NGFFNode."""
         lines = [
-            f"Type: {type(self).__name__}",
-            f"NGFF Version: {self._version}",
-            f"Is Root: {self.is_root()}",
-            f"Is Leaf: {self.is_leaf()}",
+            f"Type:\t\t\t {type(self).__name__}",
+            f"NGFF Version:\t\t {self._version}",
+            f"Is Root:\t\t {self.is_root()}",
+            f"Is Leaf:\t\t {self.is_leaf()}",
         ]
-        
+
         # Add axis information
-        if hasattr(self, 'axes') and self.axes:
+        if hasattr(self, "axes") and self.axes:
             axis_info = []
             for axis in self.axes:
                 axis_str = f"{axis.name}"
-                if hasattr(axis, 'unit') and axis.unit:
+                if hasattr(axis, "unit") and axis.unit:
                     axis_str += f" ({axis.type}) ({axis.unit})"
                 axis_info.append(axis_str)
-            lines.append(f"Axes: [{', '.join(axis_info)}]")
-        
+            lines.append(f"Axes:\t\t\t [{', '.join(axis_info)}]")
+
         # Add channel information
-        if hasattr(self, '_channel_names') and self._channel_names:
+        if hasattr(self, "_channel_names") and self._channel_names:
             channel_count = len(self._channel_names)
             if channel_count <= 5:
-                lines.append(f"Channels ({channel_count}): {self._channel_names}")
+                lines.append(
+                    f"Channels (Total: {channel_count}):\t "
+                    f"{self._channel_names}"
+                )
             else:
-                preview = self._channel_names[:3] + ['...'] + self._channel_names[-1:]
-                lines.append(f"Channels ({channel_count}): {preview}")
-        
+                preview = (
+                    self._channel_names[:3]
+                    + ["..."]
+                    + self._channel_names[-1:]
+                )
+                lines.append(f"Channels (Total: {channel_count}):\t {preview}")
+
         # Add plate-specific information if this is a Plate node
-        if hasattr(self, 'metadata') and self.metadata:
+        if hasattr(self, "metadata") and self.metadata:
             meta = self.metadata
-            if hasattr(meta, 'rows') and meta.rows:
-                lines.append(f"Row names: {[r.name for r in meta.rows]}")
-            if hasattr(meta, 'columns') and meta.columns:
-                lines.append(f"Column names: {[c.name for c in meta.columns]}")
-            if hasattr(meta, 'wells') and meta.wells:
-                lines.append(f"Wells: {len(meta.wells)}")
-        
+            if hasattr(meta, "rows") and meta.rows:
+                lines.append(f"Row names:\t\t {[r.name for r in meta.rows]}")
+            if hasattr(meta, "columns") and meta.columns:
+                lines.append(
+                    f"Column names:\t\t {[c.name for c in meta.columns]}"
+                )
+            if hasattr(meta, "wells") and meta.wells:
+                lines.append(f"Wells:\t\t\t {len(meta.wells)}")
+
         # Add child information
         group_keys = self.group_keys()
         array_keys = self.array_keys()
-        
+
         if group_keys:
             if len(group_keys) <= 5:
-                lines.append(f"Child Groups ({len(group_keys)}): {group_keys}")
+                lines.append(
+                    f"Child Groups ({len(group_keys)}):\t {group_keys}"
+                )
             else:
-                preview = group_keys[:3] + ['...'] + group_keys[-1:]
-                lines.append(f"Child Groups ({len(group_keys)}): {preview}")
-        
+                preview = group_keys[:3] + ["..."] + group_keys[-1:]
+                lines.append(f"Child Groups ({len(group_keys)}):\t {preview}")
+
         if array_keys:
             if len(array_keys) <= 5:
-                lines.append(f"Arrays ({len(array_keys)}): {array_keys}")
+                lines.append(f"Arrays ({len(array_keys)}):\t\t\t {array_keys}")
             else:
-                preview = array_keys[:3] + ['...'] + array_keys[-1:]
-                lines.append(f"Arrays ({len(array_keys)}): {preview}")
-        
+                preview = array_keys[:3] + ["..."] + array_keys[-1:]
+                lines.append(f"Arrays ({len(array_keys)}):\t\t\t {preview}")
+
         # Add storage information
         store_type = type(self._group.store).__name__
-        lines.append(f"Store Type: {store_type}")
-        
+        lines.append(f"Store Type:\t\t {store_type}")
+
         return "\n".join(lines)
 
     @property
