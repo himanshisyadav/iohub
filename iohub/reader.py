@@ -244,15 +244,11 @@ def print_info(path: StrOrBytesPath, verbose=False):
         print(str.join("\n", msgs))
     elif isinstance(reader, NGFFNode):
         print("\n#############  NEW  ###############")
-        # Use the __repr__ method for basic information
-        # technical_msg = repr(reader)
-
-        # Adding specific technical details not in __repr__
         msgs.extend(
             [
                 sum_msg,
                 fmt_msg,
-                reader.__repr__(),
+                repr(reader),
             ]
         )
 
@@ -286,14 +282,20 @@ def print_info(path: StrOrBytesPath, verbose=False):
                 ]
             )
 
-        if msgs:
-            print("\n".join(msgs))
+        if isinstance(reader, Position):
+            print("Zarr hierarchy:")
+            reader.print_tree()
 
         if verbose:
-            print("Usage example:")
-            print(">>> from iohub import open_ome_zarr")
-            print(f">>> dataset = open_ome_zarr('{path}', mode='r')")
-            print()
+            msgs.extend(
+                [
+                    code_msg,
+                    ">>> from iohub import open_ome_zarr",
+                    f">>> dataset = open_ome_zarr('{path}', mode='r')",
+                ]
+            )
+
+        print("\n".join(msgs))
 
         print("#############  OLD  ###############")
         msgs = []
@@ -339,6 +341,7 @@ def print_info(path: StrOrBytesPath, verbose=False):
                 f"No. bytes decompressed:\t {total_bytes_uncompressed} "
                 f"[{sizeof_fmt(total_bytes_uncompressed)}]"
             )
+
         if verbose:
             msgs.extend(
                 [
